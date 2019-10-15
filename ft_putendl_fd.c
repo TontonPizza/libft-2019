@@ -13,8 +13,11 @@
 #include "libft.h"
 #include <unistd.h>
 
-void			ft_putendl_fd(char *s, int fd)
+void	ft_putendl_fd(char *s, int fd)
 {
+	char p;
+
+	p = '\n';
 	ft_putstr_fd(s, fd);
-	ft_putchar_fd('\n', fd);
+	write(fd, &p, 1);
 }

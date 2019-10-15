@@ -13,36 +13,35 @@
 #include "libft.h"
 #include <unistd.h>
 
-static size_t			positive(int n)
+static void		ft_display(long int i, int fd)
 {
-	return (n > 0 ? (size_t)n : -(size_t)n);
+	int tmp;
+
+	if ((i / 10) > 0)
+		ft_display((i / 10), fd);
+	tmp = (i % 10) + 48;
+	ft_putchar_fd(tmp, fd);
 }
 
-void					ft_putnbr_fd(int n, int fd)
+void			ft_putnbr_fd(int n, int fd)
 {
-	long int		p_n;
-	int				i;
-	char			buffer[15];
+	long int		i;
 
+	i = n;
 	if (n == 0)
 	{
 		ft_putchar_fd('0', fd);
 		return ;
 	}
+	if (n == -2147483648)
+	{
+		write(fd, "-2147483648", 11);
+		return ;
+	}
 	if (n < 0)
+	{
 		ft_putchar_fd('-', fd);
-	p_n = positive(n);
-	i = 0;
-	while (p_n)
-	{
-		buffer[i] = p_n % 10 + '0';
-		p_n = p_n / 10;
-		i++;
+		i = -n;
 	}
-	i--;
-	while (i >= 0)
-	{
-		ft_putchar_fd(buffer[i], fd);
-		i--;
-	}
+	ft_display(i, fd);
 }

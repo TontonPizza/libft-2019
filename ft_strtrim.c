@@ -16,43 +16,38 @@
 
 #include "libft.h"
 
-static int			is_in(char c, char const *s)
+static int	ft_checktrim(char c, char const *set)
 {
-	int i;
+	int k;
 
-	i = 0;
-	while (s[i])
+	k = 0;
+	while (set[k])
 	{
-		if (c == s[i])
+		if (set[k] == c)
 			return (1);
-		i++;
+		k++;
 	}
 	return (0);
 }
 
-char				*ft_strtrim(char const *s1, char const *set)
+char		*ft_strtrim(char const *s1, char const *set)
 {
-	char	*result;
-	int		len_s1;
-	int		i;
-	int		k;
-	int		j;
+	char	*res;
+	int		begin;
+	int		end;
 
-	k = 0;
-	len_s1 = ft_strlen(s1);
-	if (!(result = malloc(sizeof(char) * (ft_strlen(s1) + 1))))
-		return (NULL);
-	i = len_s1 - 1;
-	while (i >= 0 && is_in(s1[i], set))
-		i--;
-	while (is_in(s1[k], set))
-		k++;
-	j = 0;
-	while (j + k < i + 1)
+	begin = 0;
+	end = ft_strlen(s1) - 1;
+	while (ft_checktrim(s1[begin], set) == 1)
+		begin++;
+	if ((begin - 1) == end)
 	{
-		result[j] = s1[k + j];
-		j++;
+		res = malloc(1);
+		res[0] = 0;
+		return (res);
 	}
-	result[j] = '\0';
-	return (result);
+	while (ft_checktrim(s1[end], set) == 1)
+		end--;
+	res = ft_substr(s1, begin, (end - begin + 1));
+	return (res);
 }
